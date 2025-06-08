@@ -1,6 +1,6 @@
 import RecipeRowItem from './RecipeRowItem';
 
-function RecipeTable({ recipes }) {
+function RecipeTable({ recipes, deleteRecipe }) {
     return (
         <table className="table table-hover">
             <thead>
@@ -14,8 +14,13 @@ function RecipeTable({ recipes }) {
             <tbody>
                 {recipes.map((recipe) => (
                     <RecipeRowItem
+                        key={recipe.rowNumber}
                         recipe={recipe}
-                        onClick={() => console.log('Recipe clicked')}
+                        onClick={() => {
+                            console.log('Recipe deleted:', recipe.name);
+                            deleteRecipe(recipe.rowNumber);
+                        }
+                    }
                     />
                 ))}
             </tbody>

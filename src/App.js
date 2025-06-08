@@ -40,14 +40,26 @@ function App() {
     }
   ]);
 
-  const addNewRecipe = () => {
+  const addNewRecipe = (name, ingredients, instructions) => {
+    // get the last row number from the existing recipe data
+    let rowNumber = 0;
+    if (recipeData.length > 0) {
+      rowNumber = recipeData[recipeData.length - 1].rowNumber + 1;
+    } else {
+      rowNumber = 1;
+    }
     const newRecipe = {
-      rowNumber: recipeData.length + 1,
-      name: 'New Recipe',
-      ingredients: 'New Ingredients',
-      instructions: 'New Instructions'
+      rowNumber: rowNumber,
+      name: name,
+      ingredients: ingredients,
+      instructions: instructions
     };
     setRecipeData(recipeData => [...recipeData, newRecipe]);
+  }
+
+  const deleteRecipe = (rowNumber) => {
+    let filteredRecipes = recipeData.filter(recipe => recipe.rowNumber !== rowNumber);
+    setRecipeData(filteredRecipes);
   }
 
   return (
@@ -57,11 +69,8 @@ function App() {
           Your Recipes
         </div>
         <div className='card-body'>
-          <RecipeTable recipes={recipeData} />
-          <button className='btn btn-primary' onClick={addNewRecipe}>
-            Add New Recipe
-          </button>
-          <NewRecipeForm />
+          <RecipeTable recipes={recipeData} deleteRecipe={deleteRecipe} />
+          <NewRecipeForm addNewRecipe={addNewRecipe}/>
         </div>
       </div>
     </div>

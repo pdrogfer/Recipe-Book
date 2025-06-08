@@ -1,29 +1,21 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
-function NewRecipeForm() {
+function NewRecipeForm(props) {
 
     const [recipeName, setRecipeName] = useState('');
     const [recipeIngredients, setRecipeIngredients] = useState('');
     const [recipeInstructions, setRecipeInstructions] = useState('');
-
-    const recipeNameChange = (event) => {
-        event.preventDefault();
-        // Logic to handle form submission, e.g., adding a new recipe
-        console.log('name', event.target.value);
-        setRecipeName(event.target.value);
-    };
-
-    const recipeIngredientsChange = (event) => {
-        event.preventDefault();
-        // Logic to handle form submission, e.g., adding ingredients
-        console.log('ingredients', event.target.value);
-        setRecipeIngredients(event.target.value);
-    }
-    const recipeInstructionsChange = (event) => {
-        event.preventDefault();
-        // Logic to handle form submission, e.g., adding instructions
-        console.log('instructions', event.target.value);
-        setRecipeInstructions(event.target.value);
+    const submitRecipe = (e) => {
+        e.preventDefault();
+        if (!recipeName || !recipeIngredients || !recipeInstructions) {
+            alert('Please fill in all fields');
+            return;
+        }
+        props.addNewRecipe(recipeName, recipeIngredients, recipeInstructions);
+        // Reset form fields
+        setRecipeName('');
+        setRecipeIngredients('');
+        setRecipeInstructions('');
     }
 
     return (
@@ -38,7 +30,7 @@ function NewRecipeForm() {
                         placeholder='Enter recipe name'
                         required
                         value={recipeName}
-                        onChange={recipeNameChange} />
+                        onChange={e => setRecipeName(e.target.value)} />
                 </div>
                 <div className='mb-3'>
                     <label htmlFor='ingredients' className='form-label'>Ingredients</label>
@@ -49,7 +41,7 @@ function NewRecipeForm() {
                         placeholder='List ingredients'
                         required
                         value={recipeIngredients}
-                        onChange={recipeIngredientsChange} />
+                        onChange={e => setRecipeIngredients(e.target.value)} />
                 </div>
                 <div className='mb-3'>
                     <label htmlFor='instructions' className='form-label'>Instructions</label>
@@ -60,9 +52,14 @@ function NewRecipeForm() {
                         placeholder='Enter cooking instructions'
                         required
                         value={recipeInstructions}
-                        onChange={recipeInstructionsChange} />
+                        onChange={e => setRecipeInstructions(e.target.value)} />
                 </div>
-                <button type='submit' className='btn btn-primary'>Add Recipe</button>
+                <button
+                    type='submit'
+                    className='btn btn-primary'
+                    onClick={submitRecipe}>
+                    Add Recipe
+                </button>
             </form>
         </div>
     );
