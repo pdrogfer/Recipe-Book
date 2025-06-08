@@ -73,7 +73,7 @@ function App() {
         <div className='card-body'>
           <RecipeTable recipes={recipeData} deleteRecipe={deleteRecipe} />
           <button className='btn btn-primary' onClick={() => setShowRecipe(!showRecipe)}>
-            New Recipe
+            {showRecipe ? 'Close New Recipe Form' : 'Open New Recipe'}
           </button>
           {showRecipe &&
             <NewRecipeForm addNewRecipe={addNewRecipe} />}
