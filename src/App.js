@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 //import logo from './logo.svg';
 import logo from './plate.jpg';
 import './App.css';
@@ -40,6 +40,8 @@ function App() {
     }
   ]);
 
+  const [showRecipe, setShowRecipe] = useState(false);
+
   const addNewRecipe = (name, ingredients, instructions) => {
     // get the last row number from the existing recipe data
     let rowNumber = 0;
@@ -70,7 +72,11 @@ function App() {
         </div>
         <div className='card-body'>
           <RecipeTable recipes={recipeData} deleteRecipe={deleteRecipe} />
-          <NewRecipeForm addNewRecipe={addNewRecipe}/>
+          <button className='btn btn-primary' onClick={() => setShowRecipe(!showRecipe)}>
+            New Recipe
+          </button>
+          {showRecipe &&
+            <NewRecipeForm addNewRecipe={addNewRecipe} />}
         </div>
       </div>
     </div>
